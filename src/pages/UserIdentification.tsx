@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import {KeyboardAvoidingView, View, Text, SafeAreaView, StyleSheet, TextInput, Platform } from "react-native";
+import {KeyboardAvoidingView, View, Text, SafeAreaView, StyleSheet, TextInput, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import colors from "../../styles/colors";
 import { Buttom } from "../components/Button";
 
@@ -7,6 +8,11 @@ export function UserIdentification() {
 const [isFocused, setIsFocused] = useState(false);
 const [isFill, setIsFill] = useState(false);
 const [name, setName] = useState<String>();
+const navigation = useNavigation();
+ 
+ function handleSubmit(){
+  navigation.navigate('Confirmation');
+}
 
 function handleBlur(){
  setIsFocused(false);
@@ -25,6 +31,7 @@ function handleChangeText(value: String){
     style={styles.container} 
     behavior={Platform.OS=='ios'?'padding':'height'}
    >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
    <View style={styles.conteudo}>
     <View style={styles.form}>
      <Text style={styles.emoji}>
@@ -41,10 +48,11 @@ function handleChangeText(value: String){
       onChangeText={handleChangeText}
       />
      <View style={styles.footer}>
-     <Buttom text={"Confirmar"}/>
+     <Buttom text={"Confirmar"} onPress={handleSubmit}/>
      </View>
     </View>
    </View>
+   </TouchableWithoutFeedback>
    </KeyboardAvoidingView>
   </SafeAreaView>
  )

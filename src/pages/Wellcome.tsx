@@ -1,35 +1,37 @@
 import React, { useState } from "react";
-import { SafeAreaView, Text, Image, StyleSheet, View, TouchableOpacity, Dimensions,  } from "react-native";
+import { SafeAreaView, Text, Image, StyleSheet, View, TouchableOpacity, Dimensions, } from "react-native";
 import colors from "../../styles/colors";
 import wateringImg from '../assets/watering.png';
-import {Entypo} from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/core";
 
 export default function Wellcome() {
-
+ const navigation = useNavigation();
+ 
+ function handleStart(){
+  navigation.navigate('UserIdentification');
+}
 
  return (
   <SafeAreaView style={styles.container}>
-      <View style={styles.embrulho}>
-   <Text style={styles.title}>
-    Gerencie{'\n'}suas planta de{'\n'} forma fácil
-   </Text>
-
-   
+   <View style={styles.embrulho}>
+    <Text style={styles.title}>
+     Gerencie{'\n'}suas planta de{'\n'} forma fácil
+    </Text>
     <View style={styles.boxImg}>
-    <Image source={wateringImg} style={styles.image} resizeMode="contain"/>
-   </View>
-   
-   <Text style={styles.subTitle}>
-    Não esqueça mais de regar suas plantas. {'\n'}
-    Nós cuidamos de lembrar você sempre que precisar.
-   </Text>
-   <View style={styles.boxImg}>
-   <TouchableOpacity style={styles.buttom} activeOpacity={0.8}>
-   <Text>
-    <Entypo name="chevron-right" style={styles.buttomIcon} color={colors.white}/>
-   </Text>
-  </TouchableOpacity>
-   </View>
+     <Image source={wateringImg} style={styles.image} resizeMode="contain" />
+    </View>
+    <Text style={styles.subTitle}>
+     Não esqueça mais de regar suas plantas. {'\n'}
+     Nós cuidamos de lembrar você sempre que precisar.
+    </Text>
+    <View style={styles.boxImg}>
+     <TouchableOpacity style={styles.buttom} activeOpacity={0.8} onPress={handleStart}>
+      <Text>
+       <Entypo name="chevron-right" style={styles.buttomIcon} color={colors.white} />
+      </Text>
+     </TouchableOpacity>
+    </View>
    </View>
   </SafeAreaView>
  );
