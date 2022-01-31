@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, Text, Image, StyleSheet, View, TouchableOpacity, Dimensions, } from "react-native";
-import colors from "../../styles/colors";
+import colors from "../styles/colors";
 import wateringImg from '../assets/watering.png';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/core";
