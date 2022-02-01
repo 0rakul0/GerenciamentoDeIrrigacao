@@ -15,9 +15,19 @@ export function UserIdentification() {
   if (!name) {
    return Alert.alert("humm qual o seu nome? :/");
   }
-  await AsyncStorage.setItem('@plantmanager.user', name);
+  try{
+      await AsyncStorage.setItem('@plantmanager.user', name);
+      navigation.navigate('Confirmation', {
+        title: 'Prontinho!',
+        subTitle: 'Agora é só agendar suas plantas',
+        buttonTitle: 'Começar',
+        icon: 'smile',
+        nextScreen: 'PlantSelect'
+      });
+  }catch{
+     Alert.alert("deu ruim :/");
+  }
 
-  navigation.navigate('Confirmation');
  }
 
  function handleBlur() {
