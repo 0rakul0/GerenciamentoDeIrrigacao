@@ -20,6 +20,8 @@
   <li> fazer um clone do projeto para o seu computador </li>
   <li> no diretório raiz, executar **expo start** para iniciar a aplicação </li>
   <li> ou **yarn android | ios** para rodar a aplicação usando emulador </li>
+  <li> para startar o servidor local use json-server </li>
+  <li> use o comando json-server ./src/services/server.json -H <-endereço da sua manquina-> -p 3333 </li>
 </ul>
 
 ## 💬 Funcionalidades
