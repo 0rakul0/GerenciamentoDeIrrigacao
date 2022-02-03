@@ -11,7 +11,7 @@
   <a href="#a-desenvolver">A desenvolver</a>
 </p>
 
-![](https://github.com/0rakul0/GerenciamentoDeIrrigacao/tree/main/assets/preview.png)
+![](https://github.com/0rakul0/GerenciamentoDeIrrigacao/blob/main/assets/preview.png)
 
 **Link figma:** https://www.figma.com/file/IhQRtrOZdu3TrvkPYREzOy/PlantManager/duplicate?node-id=0%3A1
 
