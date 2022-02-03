@@ -1,28 +1,36 @@
-import { useNavigation, useRoute } from "@react-navigation/core";
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { StyleSheet, SafeAreaView, View, Text } from "react-native";
+
+import { Button } from "../components/Button";
+
 import colors from "../styles/colors";
-import { Buttom } from "../components/Button";
+import { useRoute } from "@react-navigation/native";
 
 interface Params {
  title: string;
- subTitle: string;
+ subtitle: string;
  buttonTitle: string;
- icon: 'smile' | 'heart' | 'hug';
+ icon: 'smile' | 'hug';
  nextScreen: string;
 }
 
 const emojis = {
- smile: '😊',
- heart: '❤️',
- hug: '🤗'
+ hug: '🤗',
+ smile: '😄'
 }
 
 export function Confirmation() {
- const route = useRoute();
  const navigation = useNavigation();
+ const routes = useRoute();
 
- const { title, subTitle, buttonTitle, icon, nextScreen } = route.params as Params;
+ const {
+  title,
+  subtitle,
+  buttonTitle,
+  icon,
+  nextScreen
+ } = routes.params as Params;
 
  function handleMoveOn() {
   navigation.navigate(nextScreen);
@@ -34,54 +42,62 @@ export function Confirmation() {
     <Text style={styles.emoji}>
      {emojis[icon]}
     </Text>
-    <Text style={styles.titulo}>
+
+    <Text style={styles.title}>
      {title}
     </Text>
-    <Text style={styles.subTitulo}>
-    {subTitle}
+
+    <Text style={styles.subtitle}>
+     {subtitle}
     </Text>
+
     <View style={styles.footer}>
-     <Buttom text={buttonTitle} onPress={handleMoveOn}></Buttom>
+     <Button text={buttonTitle} onPress={handleMoveOn} />
     </View>
    </View>
   </SafeAreaView>
- );
+ )
 }
 
 const styles = StyleSheet.create({
  container: {
   flex: 1,
+  width: '100%',
   alignItems: 'center',
-  justifyContent: 'space-around',
+  justifyContent: 'space-around'
  },
+
  content: {
   flex: 1,
-  alignItems: 'center',
   justifyContent: 'center',
+  alignItems: 'center',
   width: '100%',
-  padding: 20
+  padding: 30
  },
- titulo: {
-  marginTop: 50,
-  fontSize: 30,
-  fontWeight: 'bold',
+
+ title: {
+  fontSize: 22,
   textAlign: 'center',
-  lineHeight: 40,
+  color: colors.heading,
+  lineHeight: 38,
+  marginTop: 15
+ },
+
+ subtitle: {
+  textAlign: 'center',
+  fontSize: 17,
+  paddingVertical: 20,
   color: colors.heading
  },
- subTitulo: {
-  fontSize: 20,
-  paddingVertical: 10,
-  textAlign: 'center',
-  color: colors.heading
- },
+
  emoji: {
-  fontSize: 96,
-  alignSelf: 'center',
+  fontSize: 78
  },
+
  footer: {
-  paddingHorizontal: 75,
   width: '100%',
-  marginTop: 50,
+  paddingHorizontal: 75,
+  marginTop: 20
  }
+
 });

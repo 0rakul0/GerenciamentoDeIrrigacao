@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+
 import { EnvorimentButton } from "../components/EnvorimentButton";
 import { Header } from "../components/Header";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
@@ -10,14 +11,13 @@ import { PlantProps } from "../libs/storage";
 import api from "../services/api";
 
 import colors from "../styles/colors";
-
 import { useNavigation } from "@react-navigation/core";
 
 interface EnvironmentsProps {
  key: string;
  title: string;
 }
- 
+
 export function PlantSelect() {
  const [environments, setEnvironments] = useState<EnvironmentsProps[]>([]);
  const [plants, setPlants] = useState<PlantProps[]>([]);
@@ -32,11 +32,14 @@ export function PlantSelect() {
 
  function handleEnvironmentSelected(environment: string) {
   setEnvironmentSelected(environment);
+
   if (environment == 'all')
    return setFilteredPlants(plants);
+
   const filtered = plants.filter(plant =>
    plant.environments.includes(environment)
   );
+
   setFilteredPlants(filtered);
  }
 
@@ -53,6 +56,7 @@ export function PlantSelect() {
    setPlants(data);
    setFilteredPlants(data);
   }
+
   setLoading(false);
   setLoadingMore(false);
  }
@@ -86,6 +90,8 @@ export function PlantSelect() {
  }, [])
 
  useEffect(() => {
+
+
   fecthPlants();
  }, [])
 
@@ -96,6 +102,7 @@ export function PlantSelect() {
   <View style={styles.container}>
    <View style={styles.header}>
     <Header />
+
     <Text style={styles.title}>
      Em qual ambiente
     </Text>
@@ -103,6 +110,7 @@ export function PlantSelect() {
      você quer colocar sua planta?
     </Text>
    </View>
+
    <View>
     <FlatList data={environments} keyExtractor={(item) => String(item.key)}
      renderItem={({ item }) => (
@@ -135,21 +143,25 @@ const styles = StyleSheet.create({
  header: {
   paddingHorizontal: 30
  },
+
  container: {
   flex: 1,
   backgroundColor: colors.background
  },
+
  title: {
   fontSize: 17,
   color: colors.heading,
   lineHeight: 20,
   marginTop: 15
  },
+
  subtitle: {
   fontSize: 17,
   lineHeight: 20,
   color: colors.heading
  },
+
  enviromentList: {
   height: 40,
   justifyContent: 'center',
@@ -158,6 +170,7 @@ const styles = StyleSheet.create({
   marginLeft: 32,
   marginRight: 32
  },
+
  plants: {
   flex: 1,
   paddingHorizontal: 32,

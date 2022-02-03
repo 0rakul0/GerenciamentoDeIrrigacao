@@ -1,75 +1,86 @@
+import React from "react";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
-import { KeyboardAvoidingView, Alert,View, Text, SafeAreaView, StyleSheet, TextInput, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+ StyleSheet, SafeAreaView, View, Text, TextInput,
+ KeyboardAvoidingView, Platform, TouchableWithoutFeedback,
+ Keyboard, Alert
+} from "react-native";
+
+import { Button } from "../components/Button";
+
 import colors from "../styles/colors";
-import { Buttom } from "../components/Button";
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function UserIdentification() {
- const [isFocused, setIsFocused] = useState(false);
- const [isFill, setIsFill] = useState(false);
- const [name, setName] = useState<String>();
  const navigation = useNavigation();
 
- async function handleSubmit() {
-  if (!name) {
-   return Alert.alert("humm qual o seu nome? :/");
-  }
-  try{
-      await AsyncStorage.setItem('@plantmanager.user', name);
-      navigation.navigate('Confirmation', {
-        title: 'Prontinho!',
-        subTitle: 'Agora é só agendar suas plantas',
-        buttonTitle: 'Começar',
-        icon: 'smile',
-        nextScreen: 'PlantSelect'
-      });
-  }catch{
-     Alert.alert("deu ruim :/");
-  }
+ const [isFocused, setIsFocused] = useState(false);
+ const [isFilled, setIsFilled] = useState(false);
+ const [name, setName] = useState<string>();
 
- }
-
- function handleBlur() {
+ function handleInputBlur() {
   setIsFocused(false);
-  setIsFill(!!name);
+  setIsFilled(!!name);
  }
- function handleFocus() {
+
+ function handleInputFocus() {
   setIsFocused(true);
  }
- function handleChangeText(value: String) {
-  setIsFill(!!value);
-  setName(value)
+
+ function handleInputChange(value: string) {
+  setIsFilled(!!value);
+  setName(value);
  }
+
+ async function handleSubmit() {
+  if (!name)
+   return Alert.alert('Me diz como chamar você 😄');
+
+  try {
+   await AsyncStorage.setItem('@plantmanager:user', name);
+   navigation.navigate('Confirmation', {
+    title: 'Prontinho',
+    subtitle: 'Agora vamos começar a cuidar das suas plantas com muito cuidado',
+    buttonTitle: 'Começar',
+    icon: 'smile',
+    nextScreen: 'PlantSelect'
+   });
+  } catch {
+   return Alert.alert('Não foi possível salvar o seu nome');
+  }
+ }
+
  return (
   <SafeAreaView style={styles.container}>
-   <KeyboardAvoidingView
-    style={styles.container}
-    behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-   >
+   <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-     <View style={styles.conteudo}>
+     <View style={styles.content}>
       <View style={styles.form}>
-       <Text style={styles.emoji}>
-        {isFill ? '😊' : '🤔'}
-       </Text>
-       <Text style={styles.texto}>
-        Qual o seu nome?
-       </Text>
-       <TextInput
-        style={[styles.input, (isFocused || isFill) && { borderBottomColor: colors.green }]}
-        placeholder="digite seu nome"
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        onChangeText={handleChangeText}
-       />
+       <View style={styles.header}>
+        <Text style={styles.emoji}>
+         {isFilled ? '😄' : '😀'}
+        </Text>
+
+        <Text style={styles.title}>Como podemos {'\n'} chamar você?</Text>
+       </View>
+
+       <TextInput style={[styles.input, (isFocused || isFilled) && { borderColor: colors.green }]}
+        placeholder="Digite seu nome" onBlur={handleInputBlur} onFocus={handleInputFocus}
+        onChangeText={handleInputChange}>
+
+       </TextInput>
+
        <View style={styles.footer}>
-        <Buttom text={"Confirmar"} onPress={handleSubmit} />
+        <Button text="Confirmar" onPress={handleSubmit} />
        </View>
       </View>
+
      </View>
     </TouchableWithoutFeedback>
    </KeyboardAvoidingView>
+
   </SafeAreaView>
  )
 }
@@ -78,44 +89,52 @@ const styles = StyleSheet.create({
  container: {
   flex: 1,
   width: '100%',
-  alignContent: 'center',
-  justifyContent: 'center',
+  alignItems: 'center',
+  justifyContent: 'space-around'
  },
- conteudo: {
+
+ content: {
   flex: 1,
-  width: '100%',
+  width: '100%'
  },
+
  form: {
   flex: 1,
-  paddingHorizontal: 54,
-  alignContent: 'center',
   justifyContent: 'center',
+  paddingHorizontal: 54,
+  alignItems: 'center'
  },
- texto: {
-  fontSize: 32,
-  lineHeight: 40,
-  color: colors.heading,
-  alignSelf: 'center',
-  marginTop: 40,
+
+ header: {
+  alignItems: 'center'
  },
+
  emoji: {
-  fontSize: 80,
-  alignSelf: 'center',
+  fontSize: 44
  },
+
  input: {
   borderBottomWidth: 1,
-  borderBottomColor: colors.gray,
+  borderColor: colors.gray,
   color: colors.heading,
   width: '100%',
   fontSize: 18,
   marginTop: 50,
   padding: 10,
-  textAlign: 'center',
-
+  textAlign: 'center'
  },
+
+ title: {
+  fontSize: 24,
+  lineHeight: 32,
+  textAlign: 'center',
+  color: colors.heading,
+  marginTop: 20
+ },
+
  footer: {
-  paddingHorizontal: 20,
+  marginTop: 40,
   width: '100%',
-  marginTop: 50,
+  paddingHorizontal: 20
  }
-})
+});
